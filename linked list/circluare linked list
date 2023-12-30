@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <malloc.h>
+struct node
+{ 
+  int data;
+  struct node *next;
+};
+struct node *rear = NULL,*front = NULL;
+//rear = malloc(sizeof(struct node));
+//front = malloc(sizeof(struct node));
+void insert(void);
+void delete(void);
+void display(void);
+int main()
+{
+  int ch;
+  do
+  {
+    printf("1->insert\n");
+    printf("2->delete\n");
+    printf("3->display\n");
+    printf("4->exit\n");
+    printf("Enter a choice\t:- ");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+      case 1:
+        insert();
+        break;
+      case 2:
+        delete();
+        break;
+      case 3:
+        display();
+        break;
+      case 4:
+        printf("YOU ARE EXIT\n");
+        break;
+      default:
+        printf("Invalid choice\n");
+    }
+  }while(ch != 4);
+}
+void insert(void)
+{
+  struct node *newnode,*temp;
+  newnode = malloc(sizeof(struct node));
+  printf("Enter a number\t:-  ");
+  scanf("%d",&newnode->data);
+  newnode->next = NULL;
+  if(rear == NULL)
+  {
+    rear = front = newnode;
+    printf("this\n");
+  }
+  else
+  {
+    rear->next = newnode;
+    rear = newnode;
+    printf("2\n");
+  }
+  rear->next = front;
+}
+void delete(void)
+{
+  if(rear == NULL)
+  {
+    printf("underflow\n");
+  }
+  else
+  {
+    struct node *temp;
+    temp = malloc(sizeof(struct node));
+    printf("remove element is %d\n",front->data);
+    if(rear == front)
+    {
+      rear = front = NULL;
+      printf("3\n");
+    }
+    else
+    {
+      temp = front;
+      front = temp->next;
+      rear->next = front;
+      printf("4\n");
+    }
+    free(temp);
+  }
+}
+void display(void)
+{
+  struct node *temp;
+  temp = malloc(sizeof(struct node));
+  temp = front;
+  if(rear == NULL)
+  {
+    printf("underflow\n");
+  }
+  else
+  {
+     while(temp != rear)
+     {
+       printf("%d\t  ",temp->data);
+       temp = temp->next;
+      }
+      printf("\n");
+  } 
+}
