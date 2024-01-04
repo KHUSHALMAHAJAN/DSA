@@ -15,13 +15,13 @@ void insert(struct node **r,int num)
     (*r)->data = num;
     (*r)->right = NULL;
     (*r)->left = NULL;
-    printf("0\n");
+    //printf("0\n");
   }
   else
   {
     if(num < (*r)->data)
       {
-        printf("2\n");
+        //printf("2\n");
         insert((&(*r)->left),num);
         //printf("2\n");
       }
@@ -44,6 +44,24 @@ void preorder(struct node *r)
     preorder(r->right);
   }
 }
+void inorder(struct node *r)
+{
+ if(r != NULL)
+ {
+   inorder(r->left);
+   printf("%d -> ",r->data);
+   inorder(r->right);
+ }
+}
+void postorder(struct node *r)
+{
+  if(r != NULL)
+  {
+    postorder(r->left);
+    postorder(r->right);
+    printf("%d -> ",r->data);
+  }
+}
 int main()
 {
   struct node *root = NULL;
@@ -52,7 +70,9 @@ int main()
   {
     printf("1->insert\n");
     printf("2->prioder\n");
-    printf("3->exit\n");
+    printf("3->inoder\n");
+    printf("4->postoder\n");
+    printf("5->exit\n");
     printf("choice\t");
     scanf("%d",&ch);
     switch(ch)
@@ -61,19 +81,27 @@ int main()
         printf("Enter a number\t");
         scanf("%d",&ele);
         insert(&root,ele);
-        printf("value of %d\n",root->data);
+      //  printf("value of %d\n",root->data);
         break;
       case 2:
         preorder(root);
         printf("\n");
         break;
       case 3:
+        inorder(root);
+        printf("\n");
+        break;
+      case 4:
+        postorder(root);
+        printf("\n");
+        break;
+      case 5:
         printf("exit\n");
         break;
       default:
         printf("invalid choice\n");
     }
-  }while(ch != 3);
+  }while(ch != 5);
   return 0;
 }
 //in this code only understand insert a node and preorder display 
