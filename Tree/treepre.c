@@ -27,7 +27,7 @@ void insert(struct node **r,int num)
       }
     else
       {
-        printf("3\n");
+        //printf("3\n");
         insert((&(*r)->right),num);
         //printf("3\n");
       }
@@ -62,6 +62,70 @@ void postorder(struct node *r)
     printf("%d -> ",r->data);
   }
 }
+void serach(struct node *r,int num)
+{
+  if(r == NULL)
+  {
+    printf("not found\n");
+  }
+  else if(num == r->data)
+  {
+    printf("%d is found\n",num);
+  }
+  else if(num < r->data)
+  {
+    serach((r)->left,num);
+  }
+  else
+  {
+    serach((r)->right,num);
+  }
+}
+int inorderpredecessor(struct node *r)
+{
+  while((r)->right != NULL)
+  {
+    r = (r)->right;
+  }
+  return r->data;
+}
+void delete(struct node **r,int num)
+{
+  struct node *temp;
+  if(*r == NULL)
+  {
+     printf("Element not found\n");
+  }
+  if(num < (*r)->data)
+  {
+    delete((&(*r)->left),num);
+  }
+  else if(num > (*r)->data)
+  {
+    delete((&(*r)->right),num);
+  }
+  else
+  {
+    if((*r)->right == NULL)
+    {
+      temp = *r;
+      *r = (*r)->left;
+      free(temp);
+    }
+    else if((*r)->left == NULL)
+    {
+      temp = *r;
+      *r = (*r)->right;
+      free(temp);
+    }
+    else
+    {
+      int ipre = inorderpredecessor((*r)->left);
+      (*r)->data = ipre;
+      delete((&(*r)->left),ipre);
+    }
+  }
+}
 int main()
 {
   struct node *root = NULL;
@@ -72,15 +136,26 @@ int main()
     printf("2->prioder\n");
     printf("3->inoder\n");
     printf("4->postoder\n");
-    printf("5->exit\n");
+    printf("5->serach\n");
+    printf("6->delete\n");
+    printf("7->exit\n");
     printf("choice\t");
     scanf("%d",&ch);
     switch(ch)
     {
       case 1:
-        printf("Enter a number\t");
-        scanf("%d",&ele);
-        insert(&root,ele);
+        //printf("Enter a number\t");
+        //scanf("%d",&ele);
+        insert(&root,10);
+        insert(&root,12);
+        insert(&root,11);
+        insert(&root,19);
+        insert(&root,17);
+        insert(&root,20);
+        insert(&root,5);
+        insert(&root,3);
+        insert(&root,1);
+
       //  printf("value of %d\n",root->data);
         break;
       case 2:
@@ -96,12 +171,21 @@ int main()
         printf("\n");
         break;
       case 5:
+        printf("Enter a number you wand to find\t");
+        scanf("%d",&ele);
+        serach(root,ele);
+      case 6:
+        printf("Enter a number you wand to delete\t");
+        scanf("%d",&ele);
+        delete(&root,ele);
+        break;
+      case 7:
         printf("exit\n");
         break;
       default:
         printf("invalid choice\n");
     }
-  }while(ch != 5);
+  }while(ch != 7);
   return 0;
 }
 //in this code only understand insert a node and preorder display 
